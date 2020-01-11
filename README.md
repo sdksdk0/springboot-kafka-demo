@@ -7,7 +7,7 @@
 注册过程就需要耗时4s才能响应给用户。所以我们可以对这些子操作进行来实现异
 步化执行，类似于多线程并行处理的概念。这个是分布式消息队列的第一个解决场景【异步处理】
 
-![image](./iamges/异步处理流程图.png)
+![image](./images/异步处理流程图.png)
 
 
 
@@ -26,7 +26,7 @@ consumer group是kafka提供的可扩展且具有容错性的消费者机制。�
 同一个消费组内的一个consumer来消费.
 
 
-![image](./iamges/group.id图.png)
+![image](./images/group.id图.png)
  
 ### enable.auto.commit
 消费者消费消息以后自动提交，只有当消息提交以后，该消息才不会被再次接收到，还可以配合auto.commit.interval.ms控制自动提交的频率。
