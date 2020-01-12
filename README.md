@@ -140,7 +140,7 @@ GroupCoordinatorRequest请求，服务端会返回一个负载最小的broker节
 ![image](./images/分区副本.png)
 
 ### kafka的leader选举机制
-kafka是基于Raft选举算法来实现leader选举的。
+kafka是基于Raft选举算法来实现leader选举的。raft协议演示网站：[http://thesecretlivesofdata.com/raft/](http://thesecretlivesofdata.com/raft/ "http://thesecretlivesofdata.com/raft/")
 
 Kafka分区下有可能有很多个副本(replica)用于实现冗余，从而进一步实现高可用。副本根据角色的不同
 可分为3类：
@@ -150,6 +150,9 @@ ISR副本：包含了leader副本和所有与leader副本保持同步的follower
 步后面会提到每个Kafka副本对象都有两个重要的属性：LEO和HW。注意是所有的副本，而不只是leader副本。从生产者发出的 一 条消息首先会被写入分区的leader 副本，不过还需要等待ISR集合中的所有
 follower副本都同步完之后才能被认为已经提交，之后才会更新分区的HW, 进而消费者可以消费
 到这条消息。
+
+
+Kafka集群中的其中一个Broker会被选举为Controller，主要负责Partition管理和副本状态管理，也会执行类似于重分配partition之类的管理任务。在符合某些特定条件下，Controller下的LeaderSelector会选举新的leader，ISR和新的leader_epoch及controller_epoch写入Zookeeper的相关节点中。同时发起LeaderAndIsrRequest通知所有的replicas。
 
 
 写请求首先由Leader副本处理，之后follower副本会从leader上拉取写入的消息，这个过程会有一定的
